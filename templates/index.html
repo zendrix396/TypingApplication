@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        .text {
+            height: 9.5rem;
+            width: 90%;
+            margin-left: 2%;
+            border: 1rem solid blue;
+            margin-top: 2%;
+            padding: 0.5% 0.5% 0.5% 0.5%;
+            overflow: hidden;
+        }
+        
+        .words {
+            display: inline-block;
+            font-size: 300%;
+            font-weight: bold;
+            padding-left: 1%;
+        }
+        
+        .input {
+            width: 90%;
+            height: 4.5rem;
+            border: 1rem solid green;
+            margin-left: 2%;
+            margin-top: 1%;
+            font-size: 220%
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text">
+        {% for word in text %}
+        <p class="words">{{ word }}</p>
+        {% endfor %}
+
+    </div>
+    <div class="inputbox">
+        <input type="text" class="input">
+    </div>
+    <script>
+        let index = 0;
+        let text = document.querySelectorAll('.words');
+        text[index].style.background = 'grey';
+
+        function countLines() {
+            var el = document.querySelector('.text');
+            var divHeight = el.offsetHeight
+            console.log(divHeight);
+            var element = document.querySelector('.text');
+            let lineheight = document.defaultView.getComputedStyle(element, null).getPropertyValue("lineHeight");
+            var lineHeight = parseInt(lineheight);
+            console.log(lineHeight);
+            var lines = divHeight / lineHeight;
+            console.log("Lines: " + lines);
+        }
+
+        document.querySelector('.input').addEventListener('focus', function() {
+            document.addEventListener('keyup', event => {
+                if (event.code === 'Space') {
+                    let Actual = text[index].innerText;
+                    let userWord = document.querySelector('.input').value;
+                    if (userWord.trim() == Actual.trim()) {
+                        text[index].style.color = 'green';
+                    } else {
+                        console.log(Actual);
+                        console.log(userWord)
+                        text[index].style.color = 'red';
+                    }
+                    text[index].style.background = 'white';
+                    index++;
+                    document.querySelector('.input').value = '';
+                    text[index].style.background = 'grey';
+                    countLines()
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
